@@ -14,15 +14,22 @@ class UserController {
 
       // if user exists don't save
       if (userExists) {
-        return response
-          .status(400)
-          .send({ message: { error: 'User already registered' } })
+          return response
+            .status(400)
+            .json({
+              error: 'User already registered',
+            })
       }
 
       // if user doesn't exist, proceeds with saving him in DB
       const user = await User.create(data)
 
-      return user
+      return response
+        .status(200)
+        .json({
+          status: "success",
+          data : user
+        })
     } catch (err) {
       return response
         .status(err.status)
